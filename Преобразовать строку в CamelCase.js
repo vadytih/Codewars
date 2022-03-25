@@ -19,13 +19,23 @@ function toCamelCase(str){
 
     let arr = [[]],
         n = 0,
-        low = false;
+        lowBot = false,
+        firstNUpperCase = false;
 
+    //проверка на заглавную букву в исходной строке
+    if(str[0].toUpperCase() === str[0]) {
+        firstNUpperCase = true;
+    }
+    //
+
+    //Перебор исходой строки
     for (let i = 0; i < str.length; i++) {
         if (str[i] == "_") {
-            low = true;
+            lowBot = true;
         }
 
+
+        // если встречается разделитель создаем дочерний масиив в массиве arr, если нет то добавляем буквы в дочерний массив согластно счетчику n
         if (str[i] == "-" || str[i] == "_") {
             n++;
             arr.push([]);
@@ -35,20 +45,24 @@ function toCamelCase(str){
         }
     }
 
+    //делаю все первые буквы в дочерних массивах заглавными
     for(let i = 0; i < arr.length; i++) {
         arr[i][0] = arr[i][0].toUpperCase();
     }
 
-    if(low) {
+    //если исходная первая буква была заглавная то оставляю как есть, а если малая то делаю ее малой
+    if(!firstNUpperCase) {
         arr[0][0] = arr[0][0].toLowerCase();
     }
 
+    //Делаю из дочерних массивов слова
     for(let i = 0; i < arr.length; i++) {
         let result = arr[i].join("");
         arr[i].length = 0;
         arr[i].push(result);
     }
 
+    // привожу массив из слов в строку и возвращаю ее
     return arr.join("");
 }
 
